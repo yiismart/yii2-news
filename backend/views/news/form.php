@@ -27,7 +27,7 @@ NewsAsset::register($this);
         ['button' => '<i class="fas fa-sync"></i>', 'options' => ['id' => 'make-url', 'data-url' => Url::toRoute(['make-url'])]],
     ]]) ?>
 
-    <?= $form->field($model, 'date')->widget(Datepicker::className()) ?>
+    <?= $form->field($model, 'date')->widget(Datepicker::className(), ['options' => ['class' => 'form-control']]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 
