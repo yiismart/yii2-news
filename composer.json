@@ -13,7 +13,9 @@
     "require": {
         "yiisoft/yii2": "*",
         "yiismart/yii2-base": "*",
-        "yiismart/yii2-storage": "*"
+        "yiismart/yii2-storage": "*",
+        "dkhlystov/yii2-translit": "^1.0",
+        "dkhlystov/yii2-uploadimage": "*"
     },
     "autoload": {
         "psr-4": {
