@@ -16,7 +16,7 @@ $this->params['breadcrumbs'] = [
 <h1><?= Html::encode($title) ?></h1>
 
 <p class="form-buttons">
-    <?= Html::a(Yii::t('cms', 'Add new'), ['create'], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('cms', 'Add'), ['create'], ['class' => 'btn btn-primary']) ?>
 </p>
 
 <?= GridView::widget([
@@ -26,6 +26,13 @@ $this->params['breadcrumbs'] = [
         return !$model->active ? ['class' => 'table-inactive'] : [];
     },
     'columns' => [
+        [
+            'attribute' => 'date',
+            'format' => 'html',
+            'value' => function ($model, $key, $index, $column) {
+                return Html::tag('div', $model->date);
+            },
+        ],
         [
             'attribute' => 'title',
             'format' => 'html',
@@ -37,13 +44,11 @@ $this->params['breadcrumbs'] = [
                     $image = Html::tag('div', '', $options);
                 }
 
-                $title = Html::encode($model->title);
+                $title = Html::tag('div', Html::encode($model->title));
                 $url = Html::tag('span', Html::encode($model->url), ['class' => 'badge badge-primary']);
-                $caption = Html::tag('div', $title . ' ' . $url);
+                $caption = Html::tag('div', $title . $url);
 
-                $date = Html::tag('div', $model->date, ['class' => 'text-muted']);
-
-                return $image . $caption . $date;
+                return $image . $caption;
             },
         ],
         [

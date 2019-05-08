@@ -4,6 +4,7 @@ namespace smart\news\backend\filters;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use smart\base\FilterInterface;
 use smart\news\backend\models\News;
 
@@ -38,6 +39,9 @@ class NewsFilter extends News implements FilterInterface
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         $config['query'] = $query;
+        if (!isset($config['sort']['defaultOrder'])) {
+            ArrayHelper::setValue($config, 'sort.defaultOrder', ['modifyDate' => SORT_DESC]);
+        }
         return new ActiveDataProvider($config);
     }
 }

@@ -26,6 +26,18 @@ class News extends ActiveRecord implements StoredInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        $this->modifyDate = gmdate('Y-m-d H:i:s');
+        return true;
+    }
+
+    /**
      * Parsing html for files in <img> and <a>.
      * @param string $content 
      * @return string[]
