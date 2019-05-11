@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use smart\grid\GridView;
+use smart\news\backend\forms\NewsForm;
 
 // Title
 $title = Yii::t('news', 'News');
@@ -30,7 +31,14 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'date',
             'format' => 'html',
             'value' => function ($model, $key, $index, $column) {
-                return Html::tag('div', $model->date);
+                $formatter = Yii::$app->getFormatter();
+
+                $value = Html::tag('div', $formatter->asDate($model->date, NewsForm::FORMAT_DATE));
+                if (!empty($model->time)) {
+                    $value .= Html::tag('div', $formatter->asTime($model->time, NewsForm::FORMAT_TIME), ['class' => 'text-muted']);
+                }
+
+                return $value;
             },
         ],
         [
@@ -45,7 +53,7 @@ $this->params['breadcrumbs'] = [
                 }
 
                 $title = Html::tag('div', Html::encode($model->title));
-                $url = Html::tag('span', Html::encode($model->url), ['class' => 'badge badge-primary']);
+                $url = Html::tag('span', Html::encode($model->url), ['class' => 'badge badge-secondary']);
                 $caption = Html::tag('div', $title . $url);
 
                 return $image . $caption;

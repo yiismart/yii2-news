@@ -8,6 +8,9 @@ use smart\news\backend\models\News;
 
 class NewsForm extends Form
 {
+    const FORMAT_DATE = 'yyyy-MM-dd';
+    const FORMAT_TIME = 'HH:mm';
+
     /**
      * @var boolean
      */
@@ -27,6 +30,11 @@ class NewsForm extends Form
      * @var string
      */
     public $date;
+
+    /**
+     * @var string
+     */
+    public $time;
 
     /**
      * @var string
@@ -58,6 +66,7 @@ class NewsForm extends Form
             'title' => Yii::t('news', 'Title'),
             'url' => Yii::t('news', 'Friendly URL'),
             'date' => Yii::t('news', 'Date'),
+            'time' => Yii::t('news', 'Time'),
             'image' => Yii::t('news', 'Image'),
             'description' => Yii::t('news', 'Description'),
             'text' => Yii::t('news', 'Text'),
@@ -78,10 +87,10 @@ class NewsForm extends Form
                 $object = News::findOne($this->_id);
                 return $object === null || $object->url != $this->url;
             }],
-
-            ['date', 'date', 'format' => 'yyyy-MM-dd'],
+            ['date', 'date', 'format' => self::FORMAT_DATE],
+            ['time', 'time', 'format' => self::FORMAT_TIME],
             [['text', 'description'], 'string'],
-            [['title', 'url'], 'required'],
+            [['title', 'url', 'date'], 'required'],
         ];
     }
 
@@ -93,7 +102,8 @@ class NewsForm extends Form
         $this->active = self::fromBoolean($object->active);
         $this->title = self::fromString($object->title);
         $this->url = self::fromString($object->url);
-        $this->date = self::fromDate($object->date);
+        $this->date = self::fromDate($object->date, self::FORMAT_DATE);
+        $this->time = self::fromTime($object->time, self::FORMAT_TIME);
         $this->image = self::fromString($object->image);
         $this->description = self::fromString($object->description);
         $this->text = self::fromHtml($object->text);
@@ -111,7 +121,8 @@ class NewsForm extends Form
         $object->active = self::toBoolean($this->active);
         $object->title = self::toString($this->title);
         $object->url = self::toString($this->url);
-        $object->date = self::toDate($this->date);
+        $object->date = self::toDate($this->date, self::FORMAT_DATE);
+        $object->time = self::toTime($this->time, self::FORMAT_TIME);
         $object->image = self::toString($this->image);
         $object->description = self::toString($this->description);
         $object->text = self::toHtml($this->text);

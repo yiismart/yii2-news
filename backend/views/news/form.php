@@ -6,7 +6,6 @@ use dkhlystov\uploadimage\widgets\UploadImage;
 use smart\imperavi\Imperavi;
 use smart\widgets\ActiveForm;
 use smart\widgets\Datepicker;
-use smart\storage\components\StorageInterface;
 use smart\news\backend\assets\NewsAsset;
 
 NewsAsset::register($this);
@@ -27,7 +26,12 @@ NewsAsset::register($this);
         ['button' => '<i class="fas fa-sync"></i>', 'options' => ['id' => 'make-url', 'data-url' => Url::toRoute(['make-url'])]],
     ]]) ?>
 
-    <?= $form->field($model, 'date')->widget(Datepicker::className(), ['options' => ['class' => 'form-control']]) ?>
+    <?= $form->field($model, 'date')->widget(Datepicker::className(), [
+        'format' => $model::FORMAT_DATE,
+        'options' => ['class' => 'form-control'],
+    ]) ?>
+
+    <?= $form->field($model, 'time')->textInput(['placeholder' => '00:00']) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 
