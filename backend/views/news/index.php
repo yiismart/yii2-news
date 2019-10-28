@@ -53,8 +53,8 @@ $this->params['breadcrumbs'] = [
                 }
 
                 $title = Html::tag('div', Html::encode($model->title));
-                $url = Html::tag('span', Html::encode($model->url), ['class' => 'badge badge-secondary']);
-                $caption = Html::tag('div', $title . $url);
+                $alias = Html::tag('span', Html::encode($model->alias), ['class' => 'badge badge-secondary']);
+                $caption = Html::tag('div', $title . $alias);
 
                 return $image . $caption;
             },

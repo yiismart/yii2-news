@@ -1,7 +1,7 @@
 create table if not exists `news`
 (
     `id` int(10) not null auto_increment,
-    `url` varchar(200) not null,
+    `alias` varchar(200) not null,
     `active` tinyint(1) default 1,
     `title` varchar(100) not null,
     `date` date not null,
@@ -12,5 +12,5 @@ create table if not exists `news`
     `modifyDate` datetime,
     `viewCount` integer default 0,
     primary key (`id`),
-    unique key `url` (`url`)
+    unique key `alias` (`alias`)
 ) engine InnoDB;

@@ -24,7 +24,7 @@ class NewsForm extends Form
     /**
      * @var string
      */
-    public $url;
+    public $alias;
 
     /**
      * @var string
@@ -59,12 +59,17 @@ class NewsForm extends Form
     /**
      * @inheritdoc
      */
+    protected $usingStorage = true;
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
             'active' => Yii::t('news', 'Active'),
             'title' => Yii::t('news', 'Title'),
-            'url' => Yii::t('news', 'Friendly URL'),
+            'alias' => Yii::t('news', 'Friendly URL'),
             'date' => Yii::t('news', 'Date'),
             'time' => Yii::t('news', 'Time'),
             'image' => Yii::t('news', 'Image'),
@@ -81,54 +86,48 @@ class NewsForm extends Form
         return [
             ['active', 'boolean'],
             ['title', 'string', 'max' => 100],
-            [['url', 'image'], 'string', 'max' => 200],
-            ['url', 'match', 'pattern' => '/^[a-z0-9\-_]*$/'],
-            ['url', 'unique', 'targetClass' => News::className(), 'when' => function ($model, $attribute) {
+            [['alias', 'image'], 'string', 'max' => 200],
+            ['alias', 'match', 'pattern' => '/^[a-z0-9\-_]*$/'],
+            ['alias', 'unique', 'targetClass' => News::className(), 'when' => function ($model, $attribute) {
                 $object = News::findOne($this->_id);
-                return $object === null || $object->url != $this->url;
+                return $object === null || $object->alias != $this->alias;
             }],
             ['date', 'date', 'format' => self::FORMAT_DATE],
             ['time', 'time', 'format' => self::FORMAT_TIME],
             [['text', 'description'], 'string'],
-            [['title', 'url', 'date'], 'required'],
+            [['title', 'alias', 'date'], 'required'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function assignFrom($object)
+    public function map()
     {
-        $this->active = self::fromBoolean($object->active);
-        $this->title = self::fromString($object->title);
-        $this->url = self::fromString($object->url);
-        $this->date = self::fromDate($object->date, self::FORMAT_DATE);
-        $this->time = self::fromTime($object->time, self::FORMAT_TIME);
-        $this->image = self::fromString($object->image);
-        $this->description = self::fromString($object->description);
-        $this->text = self::fromHtml($object->text);
-
-        $this->_id = $object->id;
-
-        Yii::$app->storage->cacheObject($object);
+        return [
+            ['active', 'boolean'],
+            [['title', 'alias', 'image', 'description'], 'string'],
+            ['date', 'date'],
+            ['time', 'time'],
+            ['text', 'html'],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function assignTo($object)
+    public function assignFrom($object, $attributeNames = null)
     {
-        $object->active = self::toBoolean($this->active);
-        $object->title = self::toString($this->title);
-        $object->url = self::toString($this->url);
-        $object->date = self::toDate($this->date, self::FORMAT_DATE);
-        $object->time = self::toTime($this->time, self::FORMAT_TIME);
-        $object->image = self::toString($this->image);
-        $object->description = self::toString($this->description);
-        $object->text = self::toHtml($this->text);
+        parent::assignFrom($object, $attributeNames);
+        $this->_id = $object->id;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function assignTo($object, $attributeNames = null)
+    {
+        parent::assignTo($object, $attributeNames);
         $object->modifyDate = gmdate('Y-m-d H:i:s');
-
-        Yii::$app->storage->storeObject($object);
     }
 }
