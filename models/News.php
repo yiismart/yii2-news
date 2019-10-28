@@ -2,7 +2,9 @@
 
 namespace smart\news\models;
 
+use yii\helpers\Url;
 use smart\db\ActiveRecord;
+use smart\sitemap\behaviors\SitemapBehavior;
 use smart\storage\components\StoredInterface;
 
 class News extends ActiveRecord implements StoredInterface
@@ -23,6 +25,21 @@ class News extends ActiveRecord implements StoredInterface
     public static function tableName()
     {
         return 'news';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'sitemap' => [
+                'class' => SitemapBehavior::className(),
+                'loc' => function($model) {
+                    return Url::toRoute(['/news/news/index', 'alias' => $model->alias]);
+                },
+            ],
+        ];
     }
 
     /**
