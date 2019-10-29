@@ -23,7 +23,7 @@ NewsAsset::register($this);
     <?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'alias', ['append' => [
-        ['button' => '<i class="fas fa-sync"></i>', 'options' => ['id' => 'make-alias', 'data-url' => Url::toRoute(['make-alias'])]],
+        ['button' => '<i class="fas fa-sync"></i>', 'options' => ['id' => 'make-alias', 'data-url' => Url::toRoute(['/cms/translit/index'])]],
     ]]) ?>
 
     <?= $form->field($model, 'date')->widget(Datepicker::className(), [

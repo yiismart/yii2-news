@@ -8,7 +8,7 @@ var news = {
             return;
         }
         $input.addClass('state-loading');
-        $.get($button.data('url'), {title: $('#newsform-title').val()}, function(data) {
+        $.get($button.data('url'), {s: $('#newsform-title').val()}, function(data) {
             $input.val(data).removeClass('state-loading');
         }, 'json');
     }

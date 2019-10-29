@@ -100,14 +100,4 @@ class NewsController extends BackendController
 
         return $this->redirect(['index']);
     }
-
-    /**
-     * Make friendly URL
-     * @param string $title
-     * @return string
-     */
-    public function actionMakeAlias($title)
-    {
-        return Json::encode(Translit::t($title));
-    }
 }
