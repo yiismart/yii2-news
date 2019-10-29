@@ -3,9 +3,7 @@
 namespace smart\news\backend\controllers;
 
 use Yii;
-use yii\helpers\Json;
 use yii\web\BadRequestHttpException;
-use dkhlystov\helpers\Translit;
 use smart\base\BackendController;
 use smart\imperavi\ImperaviControllerTrait;
 use smart\news\backend\filters\NewsFilter;
