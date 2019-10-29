@@ -59,11 +59,6 @@ class NewsForm extends Form
     /**
      * @inheritdoc
      */
-    protected $usingStorage = true;
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
